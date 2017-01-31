@@ -1,0 +1,16 @@
+---
+
+- name: fail unless we run on a supported distribution
+  fail: >
+    msg="Unfortunately, the 's3server'-role is not supported on {{ ansible_distribution_release }}! :-("
+  when: ansible_distribution_release|lower not in s3server_prerequisites_supported_distribution_releases
+
+- name: install package dependencies
+  apt: >
+    name="{{ item }}"
+    update_cache="{{ s3server_prerequisites_apt_update_cache|default(omit) }}"
+    cache_valid_time="{{ s3server_prerequisites_apt_cache_valid_time|default(omit) }}"
+    state="{{ s3server_prerequisites_apt_state }}"
+  with_items:
+    - "{{ s3server_prerequisites_apt_packages }}"
+

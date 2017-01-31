@@ -1,0 +1,29 @@
+---
+
+s3server_prerequisites_supported_distribution_releases:
+  - "wheezy"
+  - "jessie"
+  - "stretch"
+  - "sid"
+  - "precise"
+  - "trusty"
+  - "xenial"
+  - "yakkety"
+s3server_prerequisites_apt_packages:
+  - "git"
+  - "g++"
+s3server_prerequisites_apt_state: "present"
+s3server_prerequisites_apt_update_cache: "yes"
+s3server_prerequisites_apt_cache_valid_time: 3600
+
+s3server_install_git_repo: "https://github.com/scality/S3.git"
+s3server_install_git_dest: "/opt/s3server"
+s3server_install_git_update: "no"
+s3server_install_git_version: "GA6.3.3"
+s3server_install_git_accpet_hostkey: "yes"
+
+s3server_install_npm_production: "yes" 
+s3server_install_npm_state: "present"
+s3server_install_npm_global: "yes"
+
+s3server_configure_pm2_binary: "/usr/bin/pm2"

@@ -1,0 +1,14 @@
+---
+
+- name: fetch upstream S3Server source via git
+  git: >
+    repo="{{ s3server_install_git_repo }}"
+    dest="{{ s3server_install_git_dest }}"
+    update="{{ s3server_install_git_update }}"
+    version="{{ s3server_install_git_version }}"
+    accept_hostkey="{{ s3server_install_git_accpet_hostkey }}"
+
+- name: install s3server nodejs package
+  npm: >
+    path="{{ s3server_install_git_dest }}"
+    production="{{ s3server_install_npm_production }}"

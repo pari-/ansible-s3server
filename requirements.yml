@@ -1,0 +1,4 @@
+---
+
+- src: git+https://github.com/pari-/ansible-nodejs
+- src: git+https://github.com/pari-/ansible-pm2
