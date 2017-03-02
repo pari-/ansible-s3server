@@ -1,0 +1,34 @@
+{
+    "port": {{ s3server_port }},
+    "listenOn": {{ (s3server_listen_on|length > 0) | ternary('["{{ s3server_listen_on|sort|join('", "') }}"]', []) }},
+    "regions": {
+{% for region in s3server_region_list|sort %}
+        "{{ region }}": ["{{ s3server_region_list[region]|sort|join('", "') }}"]{{ loop.last | ternary('',',') }}
+{% endfor %}
+    },
+    "sproxyd": {
+{% for sproxyd in s3server_sproxyd_list|sort %}
+        "{{ sproxyd }}": ["{{ s3server_sproxyd_list[sproxyd]|sort|join('", "') }}"]{{ loop.last | ternary('',',') }}
+{% endfor %}
+    },
+    "bucketd": {
+{% for bucketd in s3server_bucketd_list|sort %}
+        "{{ bucketd }}": ["{{ s3server_bucketd_list[bucketd]|sort|join('", "') }}"]{{ loop.last | ternary('',',') }}
+{% endfor %}
+    },
+    "vaultd": {
+        "host": "{{ s3server_vaultd_host }}",
+        "port": {{ s3server_vaultd_port }}
+    },
+    "clusters": {{ s3server_clusters }},
+    "log": {
+        "logLevel": "{{ s3server_log_level }}",
+        "dumpLevel": "{{ s3server_log_dump_level }}"
+    },
+    "healthChecks": {
+{% for health_check in s3server_health_check_list|sort %}
+        "{{ health_check }}": ["{{ s3server_health_check_list[health_check]|sort|join('", "') }}"]{{ loop.last | ternary('',',') }}
+{% endfor %}
+    },
+    "usEastBehavior": {{ s3server_us_east_behavior }}
+}

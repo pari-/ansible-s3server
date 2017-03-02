@@ -6,6 +6,4 @@
     - 'example-vars.yml'
 
   roles:
-    - { role: ansible-nodejs, nodejs_install_version: 'node_7.x', nodejs_install_apt_key_id: '68576280' }
-    - { role: ansible-pm2 }
     - "{{ role_name | default('ansible-s3server') }}"

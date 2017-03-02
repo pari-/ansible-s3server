@@ -1,14 +1,24 @@
 ---
 
+- name: install packages
+  apt: >
+    name="{{ item }}"
+    update_cache="{{ s3server_update_cache|default(omit) }}"
+    cache_valid_time="{{ s3server_cache_valid_time|default(omit) }}"
+    state="{{ s3server_packages_state }}"
+    default_release="{{ s3server_default_release|default(omit) }}"
+  with_items:
+    - "{{ s3server_package_list }}"
+
 - name: fetch upstream S3Server source via git
   git: >
-    repo="{{ s3server_install_git_repo }}"
-    dest="{{ s3server_install_git_dest }}"
-    update="{{ s3server_install_git_update }}"
-    version="{{ s3server_install_git_version }}"
-    accept_hostkey="{{ s3server_install_git_accpet_hostkey }}"
+    repo="{{ s3server_git_repo }}"
+    dest="{{ s3server_git_dest }}"
+    update="{{ s3server_git_update }}"
+    version="{{ s3server_git_version }}"
+    accept_hostkey="{{ s3server_git_accept_hostkey }}"
 
-- name: install s3server nodejs package
+- name: install s3server nodejs packages
   npm: >
-    path="{{ s3server_install_git_dest }}"
-    production="{{ s3server_install_npm_production }}"
+    path="{{ s3server_git_dest }}"
+    production="{{ s3server_npm_production }}"

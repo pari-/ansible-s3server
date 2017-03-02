@@ -1,3 +1,7 @@
+---
+dependencies:
+  - "ansible-pm2"
+
 galaxy_info:
   author: Patrick Ringl
   description: An Ansible role which installs and configures Scality's open-source Node.JS implementation of a server handling the S3 protocol
@@ -7,5 +11,4 @@ galaxy_info:
     - S3Server
     - nodejs
   dependencies:
-    - { role: ansible-nodejs }
-    - { role: ansible-pm2 }
+    - "ansible-pm2"

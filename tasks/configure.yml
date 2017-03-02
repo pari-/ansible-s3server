@@ -1,12 +1,19 @@
 ---
 
+- name: generate configuration file
+  template: >
+    src="opt/s3server/config.json.j2"
+    dest="{{ s3server_config_file }}"
+  notify:
+    - restart s3server
+
 - name: get known processes by pm2
   command: >
-    "{{ s3server_configure_pm2_binary }}" jlist
+    "{{ s3server_pm2_binary }}" jlist
   register: pm2_list
 
 - name: register s3server to pm2 for automatic startup
   shell: >
-    cd "{{ s3server_install_git_dest }}" && "{{ s3server_configure_pm2_binary }}" start -f index.js --name "s3server"
+    cd "{{ s3server_git_dest }}" && "{{ s3server_pm2_binary }}" start -f index.js --name "s3server"
   when: pm2_list.stdout.find('s3server') == -1
 
