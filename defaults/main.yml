@@ -31,3 +31,51 @@ s3server_npm_state: "present"
 s3server_npm_global: "yes"
 s3server_pm2_binary: "/usr/bin/pm2"
 s3server_pm2_app_name: "s3server"
+
+#
+# s3server defaults
+#
+s3server_port: 8000
+s3server_listen_on: []
+s3server_region_list:
+  "localregion":
+    - "localhost"
+s3server_sproxyd_list:
+  bootstrap:
+    - "localhost:8181"
+s3server_bucketd_list:
+  bootstrap:
+    - "localhost"
+s3server_vaultd_host: "localhost"
+s3server_vaultd_port: 8500
+s3server_clusters: 10
+s3server_log_level: "info"
+s3server_log_dump_level: "error"
+s3server_health_check_list:
+  "allowFrom":
+    - "127.0.0.1/8"
+    - "::1"
+s3server_us_east_behavior: "false"
+
+#
+# nginx defaults
+#
+nginx_http_params:
+  - sendfile "on"
+  - access_log "/var/log/nginx/access.log"
+
+nginx_sites:
+  default:
+    - listen 80
+    - server_name localhost
+    - |
+      location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://localhost:8000;
+      }
+
+nginx_configs:
+  gzip:
+    - gzip on
+    - gzip_disable msie6

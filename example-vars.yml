@@ -2,25 +2,5 @@
 
 nodejs_version: "node_7.x"
 nodejs_apt_key_id: "68576280"
+pm2_version: "2.4.2"
 
-s3server_port: 8000
-s3server_listen_on: []
-s3server_region_list:
-  "localregion":
-    - "localhost"
-s3server_sproxyd_list:
-  bootstrap:
-    - "localhost:8181"
-s3server_bucketd_list:
-  bootstrap:
-    - "localhost"
-s3server_vaultd_host: "localhost"
-s3server_vaultd_port: 8500
-s3server_clusters: 10
-s3server_log_level: "info"
-s3server_log_dump_level: "error"
-s3server_health_check_list:
-  "allowFrom":
-    - "127.0.0.1/8"
-    - "::1"
-s3server_us_east_behavior: "false"

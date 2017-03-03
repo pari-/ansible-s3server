@@ -11,6 +11,7 @@
   command: >
     "{{ s3server_pm2_binary }}" jlist
   register: pm2_list
+  changed_when: False
 
 - name: register s3server to pm2 for automatic startup
   shell: >

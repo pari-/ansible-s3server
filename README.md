@@ -80,6 +80,7 @@ variable | default | notes
 ## Dependencies
 
 - [ansible-pm2](https://github.com/pari-/ansible-pm2)
+- [ansible-role-nginx](https://github.com/jdauphant/ansible-role-nginx)
 
 ## License
 
