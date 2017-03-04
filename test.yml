@@ -8,4 +8,5 @@
   roles:
     - { role: "ansible-nodejs", tags: ['ansible-nodejs'] }
     - { role: "ansible-pm2", tags: ['ansible-pm2'] }
+    - { role: "ansible-role-nginx", tags: ['ansible-role-nginx'] }
     - { role: "{{ role_name | default('ansible-s3server') }}", tags: ['ansible-s3server'] }
