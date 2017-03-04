@@ -30,6 +30,7 @@ s3server_npm_production: "yes"
 s3server_npm_state: "present"
 s3server_npm_global: "yes"
 s3server_pm2_binary: "/usr/bin/pm2"
+s3server_node_binary: "/usr/bin/node"
 s3server_pm2_app_name: "s3server"
 
 #

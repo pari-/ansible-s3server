@@ -1,6 +1,6 @@
 ---
 
-nodejs_version: "node_7.x"
+nodejs_version: "node_4.x"
 nodejs_apt_key_id: "68576280"
 pm2_version: "2.4.2"
 

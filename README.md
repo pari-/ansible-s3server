@@ -27,7 +27,7 @@ Ansible version in use for development: 2.2.1
 - hosts: s3-servers
 
   vars:
-    nodejs_version: "node_7.x"
+    nodejs_version: "node_4.x"
     nodejs_apt_key_id: "68576280"
 
   roles: 
@@ -67,6 +67,7 @@ variable | default | notes
 `git_repo` | `https://github.com/scality/S3.git` | `git, SSH, or HTTP(S) protocol address of the git repository`
 `git_update` | `no` | `If no, do not retrieve new revisions from the origin repository.`
 `git_version` | `GA6.4.2` | `What version of the repository to check out`
+`node_binary` | `/usr/bin/node` | `Absolute path to the 'node'-binary`
 `npm_global` | `yes` | `Install the node.js library globally`
 `npm_production` | `yes` | `Install dependencies in production mode, excluding devDependencies`
 `npm_state` | `present` | `The state of the node.js library`

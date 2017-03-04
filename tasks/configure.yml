@@ -13,6 +13,11 @@
   register: pm2_list
   changed_when: False
 
+- name: initialize s3server
+  shell: >
+    cd "{{ s3server_git_dest }}" && "{{ s3server_node_binary }}" init.js 
+  when: pm2_list.stdout.find('s3server') == -1
+
 - name: register s3server to pm2 for automatic startup
   shell: >
     cd "{{ s3server_git_dest }}" && "{{ s3server_pm2_binary }}" start -f index.js --name "s3server"
