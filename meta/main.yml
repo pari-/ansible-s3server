@@ -1,7 +1,4 @@
 ---
-dependencies:
-  - "ansible-pm2"
-  - "ansible-role-nginx"
 
 galaxy_info:
   author: Patrick Ringl
