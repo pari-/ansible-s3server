@@ -7,6 +7,10 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = ENV['VAGRANT_CONFIG_VM_BOX'] || 'parallels/debian-8.7'
   config.vm.hostname = hn
+  config.vm.provider "parallels" do |prl|
+    prl.memory = 2048
+    prl.cpus = 2
+  end
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "test.yml"
