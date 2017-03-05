@@ -61,12 +61,14 @@ variable | default | notes
 -------- | ------- | -----
 `cache_valid_time` | `3600` | `Update the apt cache if its older than the set value (in seconds)`
 `config_file` | `/opt/s3server/config.json` | `Absolute path to s3server's configuration file`
+`data_path` | `{{ s3server_git_dest }}/localData` | `Absolute path to where data should be stored`
 `default_release` | `jessie` | `The default release to install packages from.`
 `git_accept_hostkey` | `yes` | `Adds the hostkey for the repo url if not already added`
 `git_dest` | `/opt/s3server` | `Absolute path of where the repository should be checked out to`
 `git_repo` | `https://github.com/scality/S3.git` | `git, SSH, or HTTP(S) protocol address of the git repository`
 `git_update` | `no` | `If no, do not retrieve new revisions from the origin repository.`
 `git_version` | `GA6.4.2` | `What version of the repository to check out`
+`metadata_path` | `{{ s3server_git_dest }}/localMetadata` | `Absolute path to where metadata should be stored`
 `node_binary` | `/usr/bin/node` | `Absolute path to the 'node'-binary`
 `npm_global` | `yes` | `Install the node.js library globally`
 `npm_production` | `yes` | `Install dependencies in production mode, excluding devDependencies`
@@ -80,6 +82,7 @@ variable | default | notes
 
 ## Dependencies
 
+- [ansible-nodejs](https://github.com/pari-/ansible-nodejs)
 - [ansible-pm2](https://github.com/pari-/ansible-pm2)
 - [ansible-role-nginx](https://github.com/jdauphant/ansible-role-nginx)
 

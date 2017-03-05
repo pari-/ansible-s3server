@@ -13,13 +13,29 @@
   register: pm2_list
   changed_when: False
 
+- name: ensure presence of data- and metadata directory
+  file: >
+    state="directory"
+    mode="0700"
+    path="{{ item }}"
+  with_items:
+    - "{{ s3server_data_path }}"
+    - "{{ s3server_metadata_path }}"
+
 - name: initialize s3server
   shell: >
     cd "{{ s3server_git_dest }}" && "{{ s3server_node_binary }}" init.js 
   when: pm2_list.stdout.find('s3server') == -1
+  environment:
+    S3DATAPATH: "{{ s3server_data_path }}"
+    S3METADATAPATH: "{{ s3server_metadata_path }}"
+
+- name: create pm2 configuration
+  template: >
+    src="opt/s3server/pm2_config.yml.j2"
+    dest="{{ s3server_git_dest }}/pm2_config.yml"
 
 - name: register s3server to pm2 for automatic startup
   shell: >
-    cd "{{ s3server_git_dest }}" && "{{ s3server_pm2_binary }}" start -f index.js --name "s3server"
+    "{{ s3server_pm2_binary }}" start "{{ s3server_git_dest }}/pm2_config.yml"
   when: pm2_list.stdout.find('s3server') == -1
-

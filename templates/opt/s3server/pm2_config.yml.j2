@@ -1,0 +1,12 @@
+---
+
+apps:
+  - script: "{{ s3server_git_dest }}/index.js"
+    name: "s3server"
+    cwd: "{{ s3server_git_dest }}/"
+    instances: "1"
+    exec_mode: "fork"
+    watch: "true"
+    env:
+      S3DATAPATH: "{{ s3server_data_path }}"
+      S3METADATAPATH: "{{ s3server_metadata_path }}"

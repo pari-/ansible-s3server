@@ -61,4 +61,3 @@ s3server_health_check_list:
     - "127.0.0.1/8"
     - "::1"
 s3server_us_east_behavior: "false"
-
