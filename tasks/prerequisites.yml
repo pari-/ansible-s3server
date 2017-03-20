@@ -1,6 +1,6 @@
 ---
 
 - name: fail unless we run on a supported distribution
-  fail: >
-    msg="Unfortunately, the 's3server'-role is not supported on {{ ansible_distribution_release }}! :-("
+  fail:
+    msg: "Unfortunately, the 's3server'-role is not supported on {{ ansible_distribution_release }}! :-("
   when: ansible_distribution_release|lower not in s3server_supported_distro_list
