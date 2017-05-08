@@ -1,5 +1,7 @@
 # s3server
 
+[![Build Status](https://travis-ci.org/pari-/ansible-s3server.svg?branch=master)](https://travis-ci.org/pari-/ansible-s3server)
+
 An Ansible role which installs and configures Scality's open-source Node.JS implementation of a server handling the S3 protocol
 
 <!-- toc -->
@@ -19,7 +21,12 @@ An Ansible role which installs and configures Scality's open-source Node.JS impl
 
 Currently this role is developed for and tested on Debian GNU/Linux (release: jessie). It is assumed to work on other Debian distributions as well.
 
-Ansible version in use for development: 2.2.1
+Ansible version compatibility:
+
+- __2.3.0__ (current version in use for development of this role)
+- 2.2.2
+- 2.1.5
+- 2.0.2
 
 ## Example
 
@@ -62,7 +69,7 @@ variable | default | notes
 `cache_valid_time` | `3600` | `Update the apt cache if its older than the set value (in seconds)`
 `config_file` | `/opt/s3server/config.json` | `Absolute path to s3server's configuration file`
 `data_path` | `{{ s3server_git_dest }}/localData` | `Absolute path to where data should be stored`
-`default_release` | `jessie` | `The default release to install packages from.`
+`default_release` | `{{ ansible_distribution_release }}` | `The default release to install packages from.`
 `git_accept_hostkey` | `yes` | `Adds the hostkey for the repo url if not already added`
 `git_dest` | `/opt/s3server` | `Absolute path of where the repository should be checked out to`
 `git_repo` | `https://github.com/scality/S3.git` | `git, SSH, or HTTP(S) protocol address of the git repository`
@@ -77,7 +84,7 @@ variable | default | notes
 `packages_state` | `present` | `TBD`
 `pm2_app_name` | `s3server` | `The name s3server becomes registered at pm2`
 `pm2_binary` | `/usr/bin/pm2` | `Absolute path to the 'pm2'-binary`
-`supported_distro_list` | `['jessie']` | `A list of distribution releases this role supports`
+`supported_distro_list` | `['jessie', 'trusty']` | `A list of distribution releases this role supports`
 `update_cache` | `yes` | `Run the equivalent of apt-get update before the operation`
 
 ## Dependencies
