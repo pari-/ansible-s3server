@@ -3,12 +3,16 @@
 galaxy_info:
   author: "Patrick Ringl"
   description: "An Ansible role which installs and configures Scality's open-source Node.JS implementation of a server handling the S3 protocol"
+  dependencies:
+    - "ansible-pm2"
+    - "ansible-role-nginx"
   license: "MIT"
   min_ansible_version: "2.2.3.0"
   galaxy_tags:
     - "s3server"
     - "scality"
     - "s3"
-  dependencies:
-    - "ansible-pm2"
-    - "ansible-role-nginx"
+  platforms:
+    - name: "Debian"
+      versions:
+        - "jessie"
