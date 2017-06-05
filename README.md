@@ -23,8 +23,6 @@ Ansible version compatibility:
 
 - __2.3.1.0__ (current version in use for development of this role) 
 - 2.2.3.0
-- 2.1.6.0
-- 2.0.2.0
 
 ## Example
 

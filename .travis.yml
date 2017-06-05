@@ -19,8 +19,6 @@ before_install:
 env:
   - ANSIBLE_VERSION=2.3.1.0
   - ANSIBLE_VERSION=2.2.3.0
-  - ANSIBLE_VERSION=2.1.6.0
-  - ANSIBLE_VERSION=2.0.2.0
 
 script:
   - wget -O ${PWD}/run.sh https://raw.githubusercontent.com/pari-/docker-debian8-ansible/master/run.sh
