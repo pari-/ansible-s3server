@@ -1,0 +1,36 @@
+---
+
+- name: install s3cmd used for testing
+  include: install.yml
+  vars:
+    s3server_repo_list:
+      - repo: "deb http://ftp.debian.org/debian jessie-backports main"
+    s3server_default_release: "jessie-backports"
+    s3server_package_list: "s3cmd"
+
+- name: generate a valid s3cmd configuration for testing
+  template:
+    src: "s3cfg.j2"
+    dest: "~/.s3cfg"
+
+- name: create a bucket
+  command: |
+    "{{ s3server_s3cmd_bin }}" mb "s3://test-{{ ansible_date_time.epoch }}"
+  register: bucket_creation_result
+  ignore_errors: True
+  changed_when: False
+
+- debug:
+    msg: "{{ bucket_creation_result.stdout }}"
+
+- name: delete the previously created bucket
+  command: |
+    "{{ s3server_s3cmd_bin }}" rb "s3://test-{{ ansible_date_time.epoch }}"
+  register: bucket_deletion_result
+  ignore_errors: True
+  changed_when: False
+
+- debug:
+    msg: "{{ bucket_deletion_result.stdout }}"
+
+

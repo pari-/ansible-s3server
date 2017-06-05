@@ -2,11 +2,34 @@
 
 - hosts: "{{ hosts_group | default('all') }}"
 
-  vars_files:
-    - 'example-vars.yml'
+  vars:
+    nodejs_version: "node_4.x"
+    nginx_http_params:
+      - sendfile "on"
+      - access_log "/var/log/nginx/access.log"
+    nginx_sites:
+      default:
+        - listen 80
+        - server_name "{{ ansible_default_ipv4.address }}"
+        - |
+          location / {
+            client_max_body_size 2000M;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_pass http://localhost:8000;
+          }
+    nginx_configs:
+      gzip:
+        - gzip on
+        - gzip_disable msie6
+    s3server_credentials:
+      admin:
+        email: "admin@foo.bar"
+        access: "3OJA6OBHX061J3D8L5SN"
+        secret: "7tE1S9wASy7mmeAQBT6j8hZ7biu3ZuW9Faia4xz9"
 
   roles:
-    - { role: "ansible-nodejs", tags: ['ansible-nodejs'] }
-    - { role: "ansible-pm2", tags: ['ansible-pm2'] }
-    - { role: "ansible-role-nginx", tags: ['ansible-role-nginx'] }
-    - { role: "{{ role_name | default('ansible-s3server') }}", tags: ['ansible-s3server'] }
+    - { role: "ansible-nodejs", tags: ['nodejs'] }
+    - { role: "ansible-pm2", tags: ['pm2'] }
+    - { role: "ansible-role-nginx", tags: ['nginx'] }
+    - { role: "{{ role_name | default('ansible-s3server') }}", tags: ['s3server'] }

@@ -3,4 +3,4 @@
 - src: git+https://github.com/pari-/ansible-nodejs
 - src: git+https://github.com/pari-/ansible-pm2
 - src: git+https://github.com/jdauphant/ansible-role-nginx
-  version: v2.7.4
+  version: v2.8

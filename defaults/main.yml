@@ -1,37 +1,58 @@
 ---
 
-#
-# prerequisites
-#
-s3server_supported_distro_list:
-  - "trusty"
-  - "jessie"
-
-#
-# install
-#
-s3server_package_list:
-  - "git"
-  - "g++"
-s3server_packages_state: "present"
-s3server_update_cache: "yes"
 s3server_cache_valid_time: 3600
-s3server_default_release: "{{ ansible_distribution_release }}"
+s3server_config_file: "/opt/s3server/config.json"
+s3server_config_opts:
+  port: 8000
+  listenOn: []
+  regions:
+    "localregion":
+      - "localhost"
+    "remote":
+      - "{{ ansible_default_ipv4.address }}"
+  sproxyd:
+    bootstrap:
+      - "localhost:8181"
+  bucketd:
+    bootstrap:
+      - "localhost"
+  vaultd:
+    host: "localhost"
+    port: 8500
+  clusters: 10
+  log:
+    logLevel: "info"
+    dumpLevel: "error"
+  healthChecks:
+    "allowFrom":
+      - "127.0.0.1/8"
+      - "::1"
+  usEastBehavior: false
+s3server_data_path: "{{ s3server_git_dest }}/localData"
+s3server_default_release: "jessie"
 s3server_git_repo: "https://github.com/scality/S3.git"
 s3server_git_dest: "/opt/s3server"
 s3server_git_update: "no"
 s3server_git_version: "GA6.4.2"
 s3server_git_accept_hostkey: "yes"
-
-#
-# configure
-#
-s3server_config_file: "/opt/s3server/config.json"
+s3server_metadata_path: "{{ s3server_git_dest }}/localMetadata"
+s3server_node_binary: "/usr/bin/node"
 s3server_npm_production: "yes"
 s3server_npm_state: "present"
 s3server_npm_global: "yes"
+s3server_package_list:
+  - "git"
+  - "g++"
 s3server_pm2_binary: "/usr/bin/pm2"
-s3server_node_binary: "/usr/bin/node"
 s3server_pm2_app_name: "s3server"
-s3server_metadata_path: "{{ s3server_git_dest }}/localMetadata"
-s3server_data_path: "{{ s3server_git_dest }}/localData"
+s3server_pre_default_release: "{{ s3server_default_release }}"
+s3server_pre_package_list:
+  - "apt-transport-https"
+  - "ca-certificates"
+s3server_repo_list: {}
+s3server_run_tests: True
+s3server_s3cmd_bin: "/usr/bin/s3cmd"
+s3server_service_name: "s3server"
+s3server_supported_distro_list:
+  - "jessie"
+s3server_update_cache: "yes"

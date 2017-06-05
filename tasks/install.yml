@@ -1,11 +1,30 @@
 ---
 
+- name: add additional apt keys
+  apt_key:
+    id: "{{ item.key.id | default(omit) }}"
+    url: "{{ item.key.url | default(omit) }}"
+    keyserver: "{{ item.key.keyserver | default(omit) }}"
+    validate_certs: "{{ item.key.validate_certs | default(omit) }}"
+    state: "present"
+  when: item.key is defined and item.key and (item.key.id is defined and item.key.id or item.key.url is defined and item.key.url)
+  with_items:
+    - "{{ s3server_repo_list }}"
+
+- name: add additional apt repositories
+  apt_repository:
+    repo: "{{ item.repo }}"
+    state: "present"
+  when: item.repo is defined and item.repo
+  with_items:
+    - "{{ s3server_repo_list }}"
+
 - name: install packages
   apt:
     name: "{{ item }}"
     update_cache: "{{ s3server_update_cache|default(omit) }}"
     cache_valid_time: "{{ s3server_cache_valid_time|default(omit) }}"
-    state: "{{ s3server_packages_state }}"
+    state: "present"
     default_release: "{{ s3server_default_release|default(omit) }}"
   with_items:
     - "{{ s3server_package_list }}"

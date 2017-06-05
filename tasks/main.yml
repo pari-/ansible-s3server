@@ -1,11 +1,14 @@
 ---
 
 - include: prerequisites.yml
-  tags: [ 'prerequisites']
+  tags: ['prerequisites']
 
 - include: install.yml
-  tags: [ 'install']
+  tags: ['install']
 
 - include: configure.yml
-  tags: [ 'configure']
+  tags: ['configure']
 
+- include: test.yml
+  tags: ['test']
+  when: ((s3server_run_tests is defined and s3server_run_tests) and (s3server_credentials is defined and s3server_credentials))

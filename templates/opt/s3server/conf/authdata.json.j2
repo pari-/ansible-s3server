@@ -1,0 +1,23 @@
+{
+  "accounts" : [
+{% for acc in s3server_credentials|sort %}
+    {
+      "name" : "{{ acc }}",
+      "email" : "{{ s3server_credentials[acc]['email'] }}",
+      "arn" : "aws::iam:{{ s3server_credentials[acc]['access'] }}:user/{{ acc }}",
+      "canonicalID" : "{{ acc | password_hash('sha256', acc|regex_replace('[^./0-9A-Za-z]', '')) | b64encode }}",
+      "shortid" : "{{ loop.index }}",
+      "keys" : [
+        {
+          "access" : "{{ s3server_credentials[acc]['access'] }}",
+          "secret" : "{{ s3server_credentials[acc]['secret'] }}"
+        }
+      ]
+{% if not loop.last %}
+    },
+{% else %}
+    }
+{% endif %}
+{% endfor %}
+  ]
+}

@@ -1,0 +1,7 @@
+[default]
+access_key = {{ s3server_credentials[s3server_credentials.keys()[0]]['access'] }}
+secret_key = {{ s3server_credentials[s3server_credentials.keys()[0]]['secret'] }}
+host_base = {{ ansible_default_ipv4.address }}
+host_bucket = {{ ansible_default_ipv4.address }}
+signature_v2 = False
+use_https = False

@@ -5,7 +5,7 @@
     src: "opt/s3server/config.json.j2"
     dest: "{{ s3server_config_file }}"
   notify:
-    - restart s3server
+    - "restart s3server"
 
 - name: get known processes by pm2
   command: |
@@ -21,6 +21,16 @@
   with_items:
     - "{{ s3server_data_path }}"
     - "{{ s3server_metadata_path }}"
+
+- name: generate authdata.json
+  template:
+    src: "opt/s3server/conf/authdata.json.j2"
+    dest: "/opt/s3server/conf/authdata.json"
+  notify:
+    - restart s3server
+  when: s3server_credentials is defined and s3server_credentials
+  tags:
+    - "authdata"
 
 - name: initialize s3server
   shell: |
@@ -38,4 +48,9 @@
 - name: register s3server to pm2 for automatic startup
   shell: |
     "{{ s3server_pm2_binary }}" start "{{ s3server_git_dest }}/pm2_config.yml"
+  when: pm2_list.stdout.find('s3server') == -1
+
+- name: run pm2 save
+  shell: |
+    "{{ s3server_pm2_binary }}" save
   when: pm2_list.stdout.find('s3server') == -1

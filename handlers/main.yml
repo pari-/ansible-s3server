@@ -1,5 +1,5 @@
 ---
 
 - name: restart s3server
-  command: >
+  command: |
     "{{ s3server_pm2_binary }}" restart "{{ s3server_pm2_app_name }}"
