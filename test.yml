@@ -3,7 +3,7 @@
 - hosts: "{{ hosts_group | default('all') }}"
 
   vars:
-    nodejs_version: "node_4.x"
+    nodejs_version: "node_6.x"
     nginx_http_params:
       - sendfile "on"
       - access_log "/var/log/nginx/access.log"

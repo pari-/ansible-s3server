@@ -3,15 +3,25 @@
 - name: install s3cmd used for testing
   include: install.yml
   vars:
-    s3server_repo_list:
-      - repo: "deb http://ftp.debian.org/debian jessie-backports main"
-    s3server_default_release: "jessie-backports"
+    s3server_repo_list: "{{ (ansible_distribution_release|lower == 'jessie') | ternary([{'repo' : 'deb http://ftp.debian.org/debian jessie-backports main'}], []) }}"
+    s3server_default_release: "{{ (ansible_distribution_release|lower == 'jessie') | ternary('jessie-backports', 'stretch') }}"
     s3server_package_list: "s3cmd"
 
 - name: generate a valid s3cmd configuration for testing
   template:
     src: "s3cfg.j2"
     dest: "~/.s3cfg"
+
+- name: wait for the the S3 backend to be available
+  uri:
+    url: "{{ s3server_test_url }}"
+    status_code: 403
+  register: result
+  until: result|success
+  retries: "{{ s3server_connection_retries }}"
+  delay: "{{ s3server_connection_delay }}"
+  changed_when: false
+  check_mode: no
 
 - name: create a bucket
   command: |
@@ -32,5 +42,3 @@
 
 - debug:
     msg: "{{ bucket_deletion_result.stdout }}"
-
-

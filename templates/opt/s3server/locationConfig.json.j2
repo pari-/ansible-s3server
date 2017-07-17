@@ -1,0 +1,5 @@
+{
+{% for config_option in s3server_config_location_opts|sort %}
+  "{{ config_option }}": {{ s3server_config_location_opts[config_option]|to_json }}{{ (loop.last) | ternary('', ',') }}
+{% endfor %}
+}

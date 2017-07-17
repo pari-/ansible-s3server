@@ -2,17 +2,18 @@
 
 s3server_cache_valid_time: 3600
 s3server_config_file: "/opt/s3server/config.json"
+s3server_config_location_file: "/opt/s3server/locationConfig.json"
+s3server_config_location_opts:
+  "us-east-1":
+    type: "file"
+    legacyAwsBehavior: true
+    details: {}
 s3server_config_opts:
   port: 8000
   listenOn: []
-  regions:
-    "localregion":
-      - "localhost"
-    "remote":
-      - "{{ ansible_default_ipv4.address }}"
-  sproxyd:
-    bootstrap:
-      - "localhost:8181"
+  replicationGroupId: "RG001"
+  restEndpoints:
+    "localhost": "{{ s3server_config_location_opts.keys()[0] }}"
   bucketd:
     bootstrap:
       - "localhost"
@@ -27,13 +28,26 @@ s3server_config_opts:
     "allowFrom":
       - "127.0.0.1/8"
       - "::1"
-  usEastBehavior: false
+  metadataClient:
+    host: "localhost"
+    port: 9990
+  dataClient:
+    host: "localhost"
+    port: 9991
+  metadataDaemon:
+    bindAddress: "localhost"
+    port: 9990
+  dataDaemon:
+    bindAddress: "localhost"
+    port: 9991
+s3server_connection_retries: 5
+s3server_connection_delay: 10
 s3server_data_path: "{{ s3server_git_dest }}/localData"
-s3server_default_release: "jessie"
+s3server_default_release: "{{ ansible_distribution_release|lower }}"
 s3server_git_repo: "https://github.com/scality/S3.git"
 s3server_git_dest: "/opt/s3server"
 s3server_git_update: "no"
-s3server_git_version: "GA6.4.2"
+s3server_git_version: "31a14d97d9212273e2afb8ef7aec24edc0794e3a"
 s3server_git_accept_hostkey: "yes"
 s3server_metadata_path: "{{ s3server_git_dest }}/localMetadata"
 s3server_node_binary: "/usr/bin/node"
@@ -55,4 +69,6 @@ s3server_s3cmd_bin: "/usr/bin/s3cmd"
 s3server_service_name: "s3server"
 s3server_supported_distro_list:
   - "jessie"
+  - "stretch"
+s3server_test_url: "http://{{ ansible_default_ipv4.address }}/"
 s3server_update_cache: "yes"

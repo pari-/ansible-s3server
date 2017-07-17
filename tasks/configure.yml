@@ -1,18 +1,5 @@
 ---
 
-- name: generate configuration file
-  template:
-    src: "opt/s3server/config.json.j2"
-    dest: "{{ s3server_config_file }}"
-  notify:
-    - "restart s3server"
-
-- name: get known processes by pm2
-  command: |
-    "{{ s3server_pm2_binary }}" jlist
-  register: pm2_list
-  changed_when: False
-
 - name: ensure presence of data- and metadata directory
   file:
     state: "directory"
@@ -21,6 +8,20 @@
   with_items:
     - "{{ s3server_data_path }}"
     - "{{ s3server_metadata_path }}"
+
+- name: generate configuration file
+  template:
+    src: "opt/s3server/config.json.j2"
+    dest: "{{ s3server_config_file }}"
+  notify:
+    - "restart s3server"
+
+- name: generate location configuration file
+  template:
+    src: "opt/s3server/locationConfig.json.j2"
+    dest: "{{ s3server_config_location_file }}"
+  notify:
+    - "restart s3server"
 
 - name: generate authdata.json
   template:
@@ -32,13 +33,11 @@
   tags:
     - "authdata"
 
-- name: initialize s3server
-  shell: |
-    cd "{{ s3server_git_dest }}" && "{{ s3server_node_binary }}" init.js 
-  when: pm2_list.stdout.find('s3server') == -1
-  environment:
-    S3DATAPATH: "{{ s3server_data_path }}"
-    S3METADATAPATH: "{{ s3server_metadata_path }}"
+- name: get known processes by pm2
+  command: |
+    "{{ s3server_pm2_binary }}" jlist
+  register: pm2_list
+  changed_when: False
 
 - name: create pm2 configuration
   template:
@@ -54,3 +53,6 @@
   shell: |
     "{{ s3server_pm2_binary }}" save
   when: pm2_list.stdout.find('s3server') == -1
+
+- name: force all notified handlers to run immediately 
+  meta: flush_handlers

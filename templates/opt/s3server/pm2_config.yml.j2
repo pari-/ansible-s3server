@@ -1,7 +1,8 @@
 ---
 
 apps:
-  - script: "{{ s3server_git_dest }}/index.js"
+  - script: "npm"
+    args: "start"
     name: "s3server"
     cwd: "{{ s3server_git_dest }}/"
     instances: "1"
