@@ -28,7 +28,7 @@
     src: "opt/s3server/conf/authdata.json.j2"
     dest: "/opt/s3server/conf/authdata.json"
   notify:
-    - restart s3server
+    - "restart s3server"
   when: s3server_credentials is defined and s3server_credentials
   tags:
     - "authdata"
@@ -37,6 +37,7 @@
   command: |
     "{{ s3server_pm2_binary }}" jlist
   register: pm2_list
+  check_mode: "no"
   changed_when: False
 
 - name: create pm2 configuration

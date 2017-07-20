@@ -21,7 +21,7 @@
   retries: "{{ s3server_connection_retries }}"
   delay: "{{ s3server_connection_delay }}"
   changed_when: false
-  check_mode: no
+  check_mode: "no"
 
 - name: create a bucket
   command: |
